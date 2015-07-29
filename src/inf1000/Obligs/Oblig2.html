@@ -1,0 +1,75 @@
+<html>
+<head>
+    <link rel="stylesheet" href="http://cdn.jsdelivr.net/highlight.js/8.5/styles/default.min.css">
+    <script src="http://cdn.jsdelivr.net/highlight.js/8.5/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+</head>
+<body>
+
+<pre><code class="java">
+    import java.util.HashMap;
+
+    class Person{
+        private String navn;
+        private HashMap<String,DVD> eideFilmer = new HashMap<String, DVD>();
+        private HashMap<String,DVD> utlanteFilmer = new HashMap<String, DVD>();
+
+        public Person(String navn){
+            this.navn = navn;
+        }
+
+        public String toString(){
+            return navn;
+        }
+
+        public int antallFilmer(){
+            return eideFilmer.size();
+        }
+
+        // Legg merke til returverdien, hvor man returnerer HashMap'et i sin helhet
+        public HashMap<String, DVD> hentEide(){
+            return eideFilmer;
+        }
+
+        public boolean eierFilm(String navn){ // Metode for å sjekke feil Case 1 i laan()-metoden
+            for (DVD film : eideFilmer.values()){
+                if (film.toString().equals(navn)){
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public void leggTilFilm(DVD nyFilm){
+            eideFilmer.put(nyFilm.toString(), nyFilm);
+        }
+
+
+        // Under ligger metoder som har med utlånte filmer å gjøre
+
+
+        public int antallUtlant(){
+            return utlanteFilmer.size();
+        }
+
+        public void leggTilLant(DVD nyligLant){
+            utlanteFilmer.put(nyligLant.toString(), nyligLant);
+        }
+
+        public void slettLantFilm(String navn){
+            utlanteFilmer.remove(navn);
+        }
+
+        public boolean erUtlant(String navn){
+            if (utlanteFilmer.containsKey(navn)){
+                return utlanteFilmer.get(navn).erUtlant();
+            }
+            return false;
+        }
+    }
+</code></pre>
+
+
+
+</body>
+</html>

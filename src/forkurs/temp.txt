@@ -1,0 +1,1 @@
+Dette er en tekstfil, fordi den ender paa ".txt"

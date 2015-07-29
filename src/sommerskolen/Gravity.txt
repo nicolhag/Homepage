@@ -1,0 +1,71 @@
+// Written by Andreas Nakkerud (andreana@ifi.uio.no), modified by Esben Segalstad Slaatto (esbenss@ifi.uio.no)
+
+// world
+float pxpm = 100;           // pixels pr meter
+float w_width = 6;          // width in meter
+float w_height = 4;         // height in meter
+float time_step = 0.02;     // in seconds
+float FPS = 1.0/time_step;  // frame rate
+float gravity = 9.81;       // gravity m/s
+
+//model
+float radius = 0.20;         // radius ball i meter
+float x = 1.0;               // starting x-pos
+float y = 0.5;               // starting y-pos
+
+// variables to be inserted, can also change gravity...
+float velocity_x = 0;        // starting x-speed
+float velocity_y = 0;        // starting y-speed
+float acceleration_x = 0;    // x-acceleration
+float acceleration_y = 0;    // y-acceleration
+float speed_reduction = 0;   // speed reduction, and change direction
+
+
+// her setter vi opp rammen vår...
+void setup(){
+  frameRate(FPS);
+  size((int)(pxpm * w_width), (int)(pxpm * w_height));  // pixler pr meter * antall meter
+}
+
+// her gjør vi det vi vil tegne i loop...
+void draw(){
+  background(200, 255, 255);
+  moveBall();                  // vi ber programmet om å flytte ballen
+  drawBall();                  // vi ber programmet om å tegne ballen
+}
+
+void moveBall(){
+  velocity_x = velocity_x + acceleration_x*time_step;
+  velocity_y = velocity_y + acceleration_y*time_step;
+  x = x + velocity_x*time_step;
+  y = y + velocity_y*time_step;
+
+  if(y < radius){
+    y = radius;
+    velocity_y = speed_reduction * velocity_y;
+  } else if (y > (w_height - radius)){
+    y = w_height - radius;
+    velocity_y = speed_reduction * velocity_y;
+  }
+}
+
+void drawBall(){
+  fill(255, 150, 100);
+  ellipse(pxpm*x, pxpm*y, 2*pxpm*radius, 2*pxpm*radius);
+}
+
+void keyPressed(){
+  if (keyCode == UP){
+    acceleration_x = 0.0;
+    acceleration_y = -gravity;
+  } else if (keyCode == DOWN){
+    acceleration_x = 0.0;
+    acceleration_y = gravity;
+  } else if (keyCode == LEFT){
+    acceleration_x = -gravity;
+    acceleration_y = 0.0;
+  } else if (keyCode == RIGHT){
+    acceleration_x = gravity;
+    acceleration_y = 0.0;
+  }
+}
