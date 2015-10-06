@@ -1,1 +1,0 @@
-PY-TEKST KOMMER (skal være likt program som i Java)
